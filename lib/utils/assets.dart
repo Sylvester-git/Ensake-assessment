@@ -20,4 +20,5 @@ class ImageAssets {
   static const coldstoneBig = "assets/images/cold-stone-big.png";
   static const orikiSmall = "assets/images/oriki-sml.png";
   static const orikiBig = "assets/images/oriki-big.png";
+  static const avatar = "assets/images/avater.png";
 }

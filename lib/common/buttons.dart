@@ -10,13 +10,21 @@ class EnsakeButton extends StatelessWidget {
     this.titleColor,
     this.btnColor,
     this.borderColor,
+    this.disabled = false,
+    this.loading = false,
+    this.hpadding = 10,
+    this.vpadding = 10,
   });
 
   final void Function()? onTap;
   final String title;
   final Color? titleColor;
   final Color? btnColor;
+  final bool loading;
+  final bool disabled;
   final Color? borderColor;
+  final double hpadding;
+  final double vpadding;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -25,6 +33,7 @@ class EnsakeButton extends StatelessWidget {
         width: context.screenSize.width,
         decoration: BoxDecoration(
           color: btnColor,
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(color: borderColor ?? AppColors.primary),
           gradient:
               btnColor == null
@@ -41,16 +50,28 @@ class EnsakeButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: onTap,
+            onTap: loading || disabled ? null : onTap,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(
+                horizontal: hpadding,
+                vertical: vpadding,
+              ),
               child: Center(
-                child: Text(
-                  title,
-                  style: context.textTheme.bodyMedium!.copyWith(
-                    color: titleColor ?? Colors.white,
-                  ),
-                ),
+                child:
+                    loading
+                        ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator.adaptive(
+                            backgroundColor: Colors.white,
+                          ),
+                        )
+                        : Text(
+                          title,
+                          style: context.textTheme.bodyMedium!.copyWith(
+                            color: titleColor ?? Colors.white,
+                          ),
+                        ),
               ),
             ),
           ),

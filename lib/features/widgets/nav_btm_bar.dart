@@ -32,13 +32,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (currentIndex == index) ...[
-                    SvgPicture.asset(
-                      items[index].svgIcon,
-                      colorFilter: ColorFilter.mode(
-                        AppColors.primary,
-                        BlendMode.srcIn,
-                      ),
-                    ),
+                    SvgPicture.asset(items[index].svgIcon),
                     const SizedBox(height: 4),
                     Text(
                       items[index].name,
@@ -48,13 +42,7 @@ class BottomBar extends StatelessWidget {
                       ),
                     ),
                   ] else ...[
-                    SvgPicture.asset(
-                      items[index].svgIcon,
-                      colorFilter: ColorFilter.mode(
-                        AppColors.textgray2,
-                        BlendMode.srcIn,
-                      ),
-                    ),
+                    SvgPicture.asset(items[index].svgIcon),
                     const SizedBox(height: 4),
                     Text(
                       items[index].name,

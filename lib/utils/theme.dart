@@ -9,6 +9,7 @@ ThemeData getLightTheme() {
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
     ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white, ),
     scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(
       bodyLarge: GoogleFonts.plusJakartaSans(

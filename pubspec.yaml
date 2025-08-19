@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   dartz:
   dio:
+  top_snackbar_flutter: 
   device_info_plus: 
   equatable:
   flutter:

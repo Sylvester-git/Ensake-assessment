@@ -6,4 +6,6 @@ class AppColors {
   static const error = Color(0xFFFFEBEC);
   static const textgray1 = Color(0xFF525866);
   static const textgray2 = Color(0xFF99A0AE);
+  static const yellow = Color(0xFFFFECC0);
+  static const bgweak = Color(0xFFF5F7FA);
 }

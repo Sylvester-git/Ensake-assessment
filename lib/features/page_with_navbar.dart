@@ -16,7 +16,7 @@ class ScaffoldWithNavigation extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       bottomNavigationBar: _NavigationBar(navigationShell: navigationShell),
-      body: Stack(children: [navigationShell]),
+      body: SafeArea(child: Stack(children: [navigationShell])),
     );
   }
 }
@@ -34,7 +34,7 @@ class _NavigationBar extends StatelessWidget {
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          color: Theme.of(context).colorScheme.primary.withOpacity(.9),
+          color: Colors.white,
           child: BottomBar(
             items: [
               BtmNavBarItem(svgIcon: SvgAssets.home, name: "Home"),

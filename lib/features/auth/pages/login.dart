@@ -1,6 +1,6 @@
-import 'dart:developer';
 import 'package:ensake/common/buttons.dart';
 import 'package:ensake/common/input_field.dart';
+import 'package:ensake/features/home/pages/home.dart';
 import 'package:ensake/utils/assets.dart';
 import 'package:ensake/utils/color.dart';
 import 'package:ensake/utils/mapper.dart';
@@ -8,6 +8,7 @@ import 'package:ensake/utils/validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -42,9 +43,8 @@ class LoginPage extends StatelessWidget {
             EnsakeButton(
               title: "Log in",
               onTap: () async {
-                if (_formKey.currentState!.validate()) {
-                  log("Working");
-                }
+                context.go("/${HomePage.routeName}");
+                // if (_formKey.currentState!.validate()) {}
               },
             ),
             Text.rich(
