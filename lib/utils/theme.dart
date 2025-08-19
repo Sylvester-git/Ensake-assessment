@@ -1,9 +1,14 @@
+import 'package:ensake/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData getLightTheme() {
   return ThemeData(
     useMaterial3: true,
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+    ),
     scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(
       bodyLarge: GoogleFonts.plusJakartaSans(
@@ -16,6 +21,41 @@ ThemeData getLightTheme() {
         fontWeight: FontWeight.w500,
         fontSize: 14,
       ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: EdgeInsets.all(10),
+      errorStyle: GoogleFonts.plusJakartaSans(
+        color: Colors.redAccent,
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+      ),
+      hintStyle: GoogleFonts.plusJakartaSans(
+        color: AppColors.textgray1,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: Color(0xFFE1E4EA)),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: Color(0xFFE1E4EA)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: Color(0xFFE1E4EA)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: Color(0xFFE1E4EA)),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: BorderSide(color: AppColors.error),
+      ),
+      filled: true,
+      fillColor: Colors.white,
     ),
   );
 }

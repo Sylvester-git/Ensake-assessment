@@ -1,4 +1,4 @@
-package com.example.apptemplate
+package com.example.ensake
 
 import io.flutter.embedding.android.FlutterActivity
 

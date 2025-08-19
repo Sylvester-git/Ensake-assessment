@@ -6,7 +6,7 @@ class SvgAssets {
   static const error = "assets/svg/error-warning-fill.svg";
   static const hidepassword = "assets/svg/eye-line.svg";
   static const home = "assets/svg/home.svg";
-  static const color = "assets/svg/lock-2-line.svg";
+  static const lock = "assets/svg/lock-2-line.svg";
   static const email = "assets/svg/mail-line.svg";
   static const brandlogo1 = "assets/svg/MajorBrandLogos.svg";
   static const profile = "assets/svg/profile.svg";
