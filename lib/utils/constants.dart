@@ -40,4 +40,3 @@ const OPERATIONNOTALLOWED = 'operation-not-allowed';
 
 const OPERATIONNOTALLOWEDRESPONSE = 'Operation is not allowed';
 
-

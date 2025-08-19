@@ -25,7 +25,6 @@ class _ReRoutePageState extends State<ReRoutePage> {
   reRoute() {
     timer = Timer(const Duration(seconds: 1), () async {
       final token = await instance<Storage>().getToken();
-
       if (token == null) {
         context.go("/${LoginPage.routeName}");
       } else {

@@ -70,7 +70,7 @@ class WalletCard extends StatelessWidget {
           isloading || errormessage != null
               ? 0.height
               : Text(
-                'Available Rewards: 10',
+                'Available Rewards: $rewards',
                 style: context.textTheme.bodyMedium!.copyWith(
                   color: Colors.white,
                   fontSize: 16,

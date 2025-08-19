@@ -10,6 +10,9 @@ import 'package:ensake/utils/mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/dialog.dart';
+import '../cubit/claim_reward/claim_reward_cubit.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -34,6 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final claimRewardCubit = context.watch<ClaimRewardCubit>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -97,7 +101,13 @@ class _HomePageState extends State<HomePage> {
                                 getrewardstate
                                     .rewardResponseModel
                                     .customerPoints,
-                            rewards: 10,
+                            rewards:
+                                getAvailableRewards(
+                                  reviewmodel:
+                                      getrewardstate
+                                          .rewardResponseModel
+                                          .rewards,
+                                ).length,
                           );
                         }
                         return 0.height;
@@ -113,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                         SliverList(
                           delegate: SliverChildListDelegate([
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
                                 'Available Rewards',
                                 style: context.textTheme.bodyLarge!.copyWith(
@@ -123,7 +133,122 @@ class _HomePageState extends State<HomePage> {
                             ),
 
                             ...List.generate(2, (index) {
-                              return AvailableRewardCard(isloading: true);
+                              return AvailableRewardCard(skelentinized: true);
+                            }),
+                          ]),
+                        );
+                      }
+                      if (getRewardstate is ErrorGettingRewards) {
+                        return SliverToBoxAdapter(child: 0.height);
+                      }
+                      if (getRewardstate is GottenRewards) {
+                        return BlocListener<ClaimRewardCubit, ClaimRewardState>(
+                          listener: (context, claimRewardstate) {
+                            if (claimRewardstate is ErrorClaimingReward) {
+                              ShowDialog.showCustomCalimDialog(
+                                context: context,
+                                title: "Failed",
+                                message: claimRewardstate.errormessage,
+                                iserror: true,
+                              );
+                            }
+                            if (claimRewardstate is ClaimedReward) {
+                              ShowDialog.showCustomCalimDialog(
+                                context: context,
+                                title: "Points Earned",
+                                message: "You claimed a bonus.",
+                              );
+                            }
+                          },
+                          child: SliverList(
+                            delegate: SliverChildListDelegate([
+                              getAvailableRewards(
+                                    reviewmodel:
+                                        getRewardstate
+                                            .rewardResponseModel
+                                            .rewards,
+                                  ).isEmpty
+                                  ? 0.height
+                                  : Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
+                                    child: Text(
+                                      'Available Rewards',
+                                      style: context.textTheme.bodyLarge!
+                                          .copyWith(fontSize: 20),
+                                    ),
+                                  ),
+
+                              ...List.generate(
+                                getAvailableRewards(
+                                  reviewmodel:
+                                      getRewardstate
+                                          .rewardResponseModel
+                                          .rewards,
+                                ).length,
+                                (index) {
+                                  return AvailableRewardCard(
+                                    rewardModel:
+                                        getAvailableRewards(
+                                          reviewmodel:
+                                              getRewardstate
+                                                  .rewardResponseModel
+                                                  .rewards,
+                                        )[index],
+                                    isloading:
+                                        claimRewardCubit.state
+                                            is ClaimingReward &&
+                                        (claimRewardCubit.state
+                                                    as ClaimingReward)
+                                                .rewardId ==
+                                            getAvailableRewards(
+                                              reviewmodel:
+                                                  getRewardstate
+                                                      .rewardResponseModel
+                                                      .rewards,
+                                            )[index].id,
+                                    onTap: () {
+                                      ApiController.claimReward(
+                                        context: context,
+                                        rewardID:
+                                            getAvailableRewards(
+                                              reviewmodel:
+                                                  getRewardstate
+                                                      .rewardResponseModel
+                                                      .rewards,
+                                            )[index].id,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ]),
+                          ),
+                        );
+                      }
+                      return SliverToBoxAdapter(child: 0.height);
+                    },
+                  ),
+                  // Reward History
+                  BlocBuilder<GetRewardsCubit, GetRewardsState>(
+                    builder: (context, getRewardstate) {
+                      if (getRewardstate is GettingRewards ||
+                          getRewardstate is GetRewardsInitial) {
+                        SliverList(
+                          delegate: SliverChildListDelegate([
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                'Rewards History',
+                                style: context.textTheme.bodyLarge!.copyWith(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+
+                            ...List.generate(2, (index) {
+                              return RewardHistoryCard(isloading: true);
                             }),
                           ]),
                         );
@@ -134,24 +259,38 @@ class _HomePageState extends State<HomePage> {
                       if (getRewardstate is GottenRewards) {
                         return SliverList(
                           delegate: SliverChildListDelegate([
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Text(
-                                'Available Rewards',
-                                style: context.textTheme.bodyLarge!.copyWith(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-
-                            ...List.generate(
-                              getRewardstate.rewardResponseModel.rewards.length,
-                              (index) {
-                                return AvailableRewardCard(
-                                  rewardModel:
+                            getClaimedRewards(
+                                  reviewmodel:
                                       getRewardstate
                                           .rewardResponseModel
-                                          .rewards[index],
+                                          .rewards,
+                                ).isEmpty
+                                ? 0.height
+                                : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 5,
+                                  ),
+                                  child: Text(
+                                    'Rewards History',
+                                    style: context.textTheme.bodyLarge!
+                                        .copyWith(fontSize: 20),
+                                  ),
+                                ),
+
+                            ...List.generate(
+                              getClaimedRewards(
+                                reviewmodel:
+                                    getRewardstate.rewardResponseModel.rewards,
+                              ).length,
+                              (index) {
+                                return RewardHistoryCard(
+                                  rewardModel:
+                                      getClaimedRewards(
+                                        reviewmodel:
+                                            getRewardstate
+                                                .rewardResponseModel
+                                                .rewards,
+                                      )[index],
                                 );
                               },
                             ),
@@ -160,23 +299,6 @@ class _HomePageState extends State<HomePage> {
                       }
                       return SliverToBoxAdapter(child: 0.height);
                     },
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Text(
-                        'Rewards History',
-                        style: context.textTheme.bodyLarge!.copyWith(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Rewards history
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return RewardHistoryCard();
-                    }, childCount: 2),
                   ),
                 ],
               ),

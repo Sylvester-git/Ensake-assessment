@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/auth/cubit/login/login_cubit.dart';
+import '../features/home/cubit/claim_reward/claim_reward_cubit.dart';
 import 'dependency_inj.dart';
 
 MultiBlocProvider getProvider({required Widget child}) {
@@ -12,6 +13,7 @@ MultiBlocProvider getProvider({required Widget child}) {
       BlocProvider(create: (context) => instance<LoginCubit>()),
       BlocProvider(create: (context) => instance<GetCurrentUserCubit>()),
       BlocProvider(create: (context) => instance<GetRewardsCubit>()),
+      BlocProvider(create: (context) => instance<ClaimRewardCubit>()),
     ],
     child: child,
   );

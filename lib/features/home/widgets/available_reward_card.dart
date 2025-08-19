@@ -12,15 +12,19 @@ class AvailableRewardCard extends StatelessWidget {
     super.key,
     this.rewardModel,
     this.isloading = false,
+    this.skelentinized = false,
+    this.onTap,
   });
 
   final RewardModel? rewardModel;
+  final bool skelentinized;
   final bool isloading;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
-      enabled: isloading,
+      enabled: skelentinized,
       child: Container(
         margin: EdgeInsets.only(bottom: 16),
 
@@ -66,7 +70,7 @@ class AvailableRewardCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      isloading
+                      skelentinized
                           ? 0.height
                           : SizedBox(
                             width: 100,
@@ -74,7 +78,8 @@ class AvailableRewardCard extends StatelessWidget {
                               title: "Claim",
                               hpadding: 5,
                               vpadding: 5,
-                              onTap: () {},
+                              loading: isloading,
+                              onTap: onTap,
                               borderColor: AppColors.primary,
                               btnColor: Colors.white,
                               titleColor: AppColors.primary,
@@ -85,7 +90,7 @@ class AvailableRewardCard extends StatelessWidget {
                 ],
               ),
             ),
-            isloading
+            skelentinized
                 ? 0.height
                 : Positioned.directional(
                   end: context.screenSize.width * .65,

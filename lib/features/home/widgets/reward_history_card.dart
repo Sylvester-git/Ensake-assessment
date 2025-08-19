@@ -1,3 +1,4 @@
+import 'package:ensake/features/home/model/reward.dart';
 import 'package:ensake/utils/assets.dart';
 import 'package:ensake/utils/color.dart';
 import 'package:ensake/utils/mapper.dart';
@@ -6,10 +7,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class RewardHistoryCard extends StatelessWidget {
-  const RewardHistoryCard({super.key, this.isloading = false});
+  const RewardHistoryCard({
+    super.key,
+    this.isloading = false,
+    this.rewardModel,
+  });
 
   final bool isloading;
-
+  final RewardModel? rewardModel;
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
@@ -22,7 +27,7 @@ class RewardHistoryCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: context.screenSize.width * .77,
+              width: context.screenSize.width * .75,
               child: Row(
                 spacing: 8,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,10 +70,12 @@ class RewardHistoryCard extends StatelessWidget {
                         style: context.textTheme.bodyMedium,
                       ),
                       SizedBox(
-                        width: context.screenSize.width * .63,
+                        width: context.screenSize.width * .60,
                         child: Text(
-                          "Received bonus points at sensible delicacy",
-                          maxLines: 1,
+                          rewardModel == null
+                              ? "Received bonus points at sensible delicacy"
+                              : "Received bonus points ${rewardModel!.description}",
+                          maxLines: 2,
                           style: context.textTheme.bodyMedium!.copyWith(
                             color: AppColors.textgray1,
                             fontSize: 12,
@@ -89,7 +96,7 @@ class RewardHistoryCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "10pts",
+                    rewardModel == null ? "10pts" : "${rewardModel!.point}pts",
                     style: context.textTheme.bodyMedium!.copyWith(),
                   ),
                   Text(
