@@ -13,10 +13,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   dartz:
   dio:
+  device_info_plus: 
   equatable:
   flutter:
     sdk: flutter
   flutter_bloc:
+  flutter_secure_storage: 
   flutter_native_splash:
   flutter_svg:
   get_it:
@@ -26,6 +28,7 @@ dependencies:
   hive_flutter:
   path:
   pretty_dio_logger:
+  path_provider: ^2.1.5
 
 
 dev_dependencies:
