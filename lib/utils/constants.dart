@@ -40,8 +40,4 @@ const OPERATIONNOTALLOWED = 'operation-not-allowed';
 
 const OPERATIONNOTALLOWEDRESPONSE = 'Operation is not allowed';
 
-const PROHIDITEDTEXT =
-    "Alcohol, medication, drugs, firearms, and dangerous or illegal items are prohibited. Items sent via Kaysavo must comply with all laws and regulations and with Kaysavo policies. Violations will be reported to authorities and app access will be removed. Kaysavo will cooperate with las enforcement on any illegal activity.";
 
-const CONFIRMDELIVERYTERMS =
-    'Kaysavo does not maintain insurance for packages. By tapping confirm delivery, you are consenting to the Terms and Conditions';

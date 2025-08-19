@@ -32,27 +32,4 @@ class Validators {
       return null;
     }
   }
-
-  static String? validatePhonenumber(String? str) {
-    RegExp regExp = RegExp(r"^\d{10,11}$");
-
-    if (!regExp.hasMatch(str!)) {
-      return 'Invalid phone number';
-    } else {
-      return null;
-    }
-  }
-
-  static String? validateConfirmPassword({
-    String? confirmPassword,
-    required String password,
-  }) {
-    if (confirmPassword == null || confirmPassword.isEmpty) {
-      return 'This field cannot be empty';
-    } else if (confirmPassword != password) {
-      return 'Password must be the same';
-    } else {
-      return null;
-    }
-  }
 }
