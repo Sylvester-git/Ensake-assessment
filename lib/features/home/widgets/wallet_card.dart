@@ -9,11 +9,13 @@ class WalletCard extends StatelessWidget {
     super.key,
     required this.points,
     required this.rewards,
+    this.errormessage,
     this.isloading = false,
   });
 
   final int points;
   final int rewards;
+  final String? errormessage;
   final bool isloading;
 
   @override
@@ -51,21 +53,21 @@ class WalletCard extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   Text(
-                    points.toString(),
+                    errormessage ?? points.toString(),
                     style: context.textTheme.bodyMedium!.copyWith(
-                      fontSize: 32,
+                      fontSize: errormessage == null ? 32 : 18,
                       color: Colors.white,
                     ),
                   ),
                   Text(
-                    'pts',
+                    errormessage == null ? 'pts' : "",
                     style: context.textTheme.bodyMedium!.copyWith(
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
-          isloading
+          isloading || errormessage != null
               ? 0.height
               : Text(
                 'Available Rewards: 10',

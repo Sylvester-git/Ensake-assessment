@@ -1,4 +1,5 @@
 import 'package:ensake/features/auth/cubit/current_user/get_current_user_cubit.dart';
+import 'package:ensake/features/home/cubit/get_rewards/get_rewards_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +11,7 @@ MultiBlocProvider getProvider({required Widget child}) {
     providers: [
       BlocProvider(create: (context) => instance<LoginCubit>()),
       BlocProvider(create: (context) => instance<GetCurrentUserCubit>()),
+      BlocProvider(create: (context) => instance<GetRewardsCubit>()),
     ],
     child: child,
   );

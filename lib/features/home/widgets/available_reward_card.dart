@@ -10,11 +10,11 @@ import '../../../utils/assets.dart';
 class AvailableRewardCard extends StatelessWidget {
   const AvailableRewardCard({
     super.key,
-    this.rewardResponseModel,
+    this.rewardModel,
     this.isloading = false,
   });
 
-  final RewardResponseModel? rewardResponseModel;
+  final RewardModel? rewardModel;
   final bool isloading;
 
   @override
@@ -42,7 +42,10 @@ class AvailableRewardCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage(ImageAssets.coldstoneSmall),
+                        image:
+                            rewardModel?.brandModel.logo == null
+                                ? AssetImage(ImageAssets.coldstoneSmall)
+                                : NetworkImage(rewardModel!.brandModel.logo),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -55,7 +58,8 @@ class AvailableRewardCard extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.sizeOf(context).width * .55,
                         child: Text(
-                          "Earn Points With Every Scoop At Coldstone",
+                          rewardModel?.description ??
+                              "Earn Points With Every Scoop At Coldstone",
                           maxLines: 2,
                           style: context.textTheme.bodyMedium!.copyWith(
                             overflow: TextOverflow.ellipsis,
@@ -84,14 +88,30 @@ class AvailableRewardCard extends StatelessWidget {
             isloading
                 ? 0.height
                 : Positioned.directional(
-                  end: context.screenSize.width * .47,
-                  bottom: context.screenSize.width * -.02,
+                  end: context.screenSize.width * .65,
+                  top: context.screenSize.width * -.2,
                   textDirection: TextDirection.rtl,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Image.asset(ImageAssets.coldstoneSmall),
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width * .3,
+
+                    height: MediaQuery.sizeOf(context).width * .4,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(rewardModel!.brandModel.logo),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
+
+            // Padding(
+            //     padding: const EdgeInsets.only(bottom: 40),
+            //     child:
+            //         rewardModel?.brandModel.logo == null
+            //             ? Image.asset(ImageAssets.coldstoneSmall)
+            //             : Image.network(rewardModel!.brandModel.logo),
+            //   ),
           ],
         ),
       ),

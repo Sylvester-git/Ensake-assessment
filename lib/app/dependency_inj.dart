@@ -3,6 +3,7 @@ import 'package:ensake/network/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../features/auth/cubit/login/login_cubit.dart';
+import '../features/home/cubit/get_rewards/get_rewards_cubit.dart';
 import '../network/api_ds.dart';
 import '../network/api_repo.dart';
 import '../utils/storage.dart';
@@ -23,6 +24,9 @@ Future<void> initDependencyInj() async {
   //Cubit
   instance.registerLazySingleton<GetCurrentUserCubit>(
     () => GetCurrentUserCubit(),
+  );
+  instance.registerLazySingleton<GetRewardsCubit>(
+    () => GetRewardsCubit(apiRepo: instance()),
   );
   instance.registerLazySingleton<LoginCubit>(
     () => LoginCubit(apiRepo: instance(), currentUserCubit: instance()),

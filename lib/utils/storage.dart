@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import "package:hive/hive.dart";
@@ -28,12 +27,21 @@ class StorageImpl implements Storage {
   final String tokenKey = "tokenKey";
   final String secureStoragekey = "secureStoragekey";
 
+  Future<void> _ensureEncryptionKeyLoaded() async {
+    if (encryptionKey == null) {
+      final String? getSecuredKey = await secureStorage.read(key: tokenKey);
+      if (getSecuredKey == null) throw Exception("Encryption key not found");
+      encryptionKey = base64Url.decode(getSecuredKey);
+    }
+  }
+
   @override
   Future<String?> getToken() async {
+    await _ensureEncryptionKeyLoaded();
     try {
       var encryptedBox = await Hive.openBox(
         securebox,
-        encryptionCipher: HiveAesCipher(encryptionKey),
+        encryptionCipher: HiveAesCipher(encryptionKey as List<int>),
       );
       final token = encryptedBox.get(tokenKey);
       return token;
@@ -65,6 +73,7 @@ class StorageImpl implements Storage {
 
   @override
   Future<void> saveToken({required String token}) async {
+    await _ensureEncryptionKeyLoaded();
     try {
       var encryptedBox = await Hive.openBox(
         securebox,

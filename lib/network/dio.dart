@@ -20,7 +20,9 @@ class Api {
         },
       ),
     );
-    dio.interceptors.add(PrettyDioLogger(request: true, requestBody: false));
+    dio.interceptors.add(
+      PrettyDioLogger(request: true, requestBody: true, requestHeader: true),
+    );
     dio.interceptors.addAll({AppInterceptors(dio: dio)});
   }
 }
@@ -41,10 +43,12 @@ class AppInterceptors extends Interceptor {
   ) async {
     ensakeDevice = await getEnsakeDevice();
     token = await storage.getToken();
-    if (token != null && token != "") {
+
+    if (token != null || token != "") {
       options.headers.addAll({'Authorization': "Bearer $token"});
     }
     options.headers.addAll(({'Ensake-Device': ensakeDevice ?? ""}));
+
     return handler.next(options);
   }
 

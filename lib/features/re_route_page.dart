@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ensake/app/dependency_inj.dart';
 import 'package:ensake/features/auth/pages/login.dart';
