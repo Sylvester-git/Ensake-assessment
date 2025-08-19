@@ -1,4 +1,5 @@
 import 'package:ensake/features/home/widgets/available_reward_card.dart';
+import 'package:ensake/features/home/widgets/reward_history_card.dart';
 import 'package:ensake/features/home/widgets/wallet_card.dart';
 import 'package:ensake/utils/assets.dart';
 import 'package:ensake/utils/color.dart';
@@ -66,7 +67,7 @@ class HomePage extends StatelessWidget {
 
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
                       'Rewards History',
                       style: context.textTheme.bodyLarge!.copyWith(
@@ -78,8 +79,8 @@ class HomePage extends StatelessWidget {
                 // Rewards history
                 SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                    return null;
-                  }),
+                    return RewardHistoryCard();
+                  }, childCount: 2),
                 ),
               ],
             ),
