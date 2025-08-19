@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
           children: [
             EnsakeButton(
               title: "Log in",
-              onTap: () {
+              onTap: () async {
                 if (_formKey.currentState!.validate()) {
                   log("Working");
                 }
