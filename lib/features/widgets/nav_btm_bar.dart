@@ -1,4 +1,8 @@
+import 'package:ensake/utils/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../model/btm_nav_bar_item.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({
@@ -8,7 +12,7 @@ class BottomBar extends StatelessWidget {
     this.onTap,
   });
 
-  final List<BottomNavigationBarItem> items;
+  final List<BtmNavBarItem> items;
   final int? currentIndex;
   final Function(int index)? onTap;
 
@@ -28,47 +32,35 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (currentIndex == index) ...[
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 2,
+                    SvgPicture.asset(
+                      items[index].svgIcon,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.primary,
+                        BlendMode.srcIn,
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        // color: Theme.of(
-                        //   context,
-                        // ).colorScheme.onPrimary.withOpacity(.5),
-                      ),
-                      child: Center(child: items[index].activeIcon),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      items[index].label ?? "",
+                      items[index].name,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w600,
+                        fontSize: 10,
+                        color: AppColors.primary,
                       ),
                     ),
                   ] else ...[
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 2,
+                    SvgPicture.asset(
+                      items[index].svgIcon,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.textgray2,
+                        BlendMode.srcIn,
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        color: Colors.transparent,
-                      ),
-                      child: Center(child: items[index].icon),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      items[index].label ?? "",
+                      items[index].name,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onPrimary.withOpacity(.6),
+                        color: AppColors.textgray2,
+                        fontSize: 10,
                       ),
                     ),
                   ],

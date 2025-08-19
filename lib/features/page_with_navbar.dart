@@ -1,3 +1,5 @@
+import 'package:ensake/features/model/btm_nav_bar_item.dart';
+import 'package:ensake/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,20 +21,6 @@ class ScaffoldWithNavigation extends StatelessWidget {
   }
 }
 
-// class _ScaffoldWithNavigationRail extends StatefulWidget {
-//   const _ScaffoldWithNavigationRail(this.navigationShell);
-//   final StatefulNavigationShell navigationShell;
-
-//   @override
-//   State<_ScaffoldWithNavigationRail> createState() =>
-//       _ScaffoldWithNavigationRailState();
-// }
-
-// class _ScaffoldWithNavigationRailState
-//     extends State<_ScaffoldWithNavigationRail> {
-
-// }
-
 class _NavigationBar extends StatelessWidget {
   const _NavigationBar({required this.navigationShell});
 
@@ -49,23 +37,10 @@ class _NavigationBar extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary.withOpacity(.9),
           child: BottomBar(
             items: [
-              // BottomNavigationBarItem(
-              //   icon: SvgPicture.asset(
-              //     KaysovaUserAsset.homeInactivesvg,
-              //     color: Theme.of(
-              //       context,
-              //     ).colorScheme.onPrimary.withOpacity(.5),
-              //     colorBlendMode: BlendMode.srcIn,
-              //     height: 24,
-              //   ),
-              //   activeIcon: SvgPicture.asset(
-              //     KaysovaUserAsset.homeActivesvg,
-              //     color: Theme.of(context).colorScheme.onPrimary,
-              //     colorBlendMode: BlendMode.srcIn,
-              //     height: 24,
-              //   ),
-              //   label: 'Home',
-              // ),
+              BtmNavBarItem(svgIcon: SvgAssets.home, name: "Home"),
+              BtmNavBarItem(svgIcon: SvgAssets.qrcode, name: 'QR Code'),
+              BtmNavBarItem(svgIcon: SvgAssets.reward, name: "Rewards"),
+              BtmNavBarItem(svgIcon: SvgAssets.profile, name: "Profile"),
             ],
             currentIndex: navigationShell.currentIndex,
             onTap: (index) {
