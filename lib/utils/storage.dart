@@ -9,7 +9,11 @@ import "package:flutter_secure_storage/flutter_secure_storage.dart";
 abstract class Storage {
   Future<void> initStorage();
   Future<String?> getToken();
+  Future<void> clearStorage();
   Future<void> saveToken({required String token});
+
+  Future<void> storeData({required String key, dynamic value});
+  Future<dynamic> getData({required String key});
 }
 
 class StorageImpl implements Storage {
@@ -17,16 +21,26 @@ class StorageImpl implements Storage {
 
   dynamic encryptionKey;
   dynamic securedKey;
+
   final String securebox = "secureBox";
+  final String deviceBox = "deviceBox";
+
   final String tokenKey = "tokenKey";
+  final String secureStoragekey = "secureStoragekey";
+
   @override
   Future<String?> getToken() async {
-    var encryptedBox = await Hive.openBox(
-      securebox,
-      encryptionCipher: HiveAesCipher(encryptionKey),
-    );
-    final token = encryptedBox.get(tokenKey);
-    return token;
+    try {
+      var encryptedBox = await Hive.openBox(
+        securebox,
+        encryptionCipher: HiveAesCipher(encryptionKey),
+      );
+      final token = encryptedBox.get(tokenKey);
+      return token;
+    } catch (e) {
+      log("Error fetching token");
+      return null;
+    }
   }
 
   @override
@@ -46,6 +60,7 @@ class StorageImpl implements Storage {
     final String? getSecuredKey = await secureStorage.read(key: tokenKey);
 
     encryptionKey = base64Url.decode(getSecuredKey!);
+    log("HIVE INIT");
   }
 
   @override
@@ -60,5 +75,28 @@ class StorageImpl implements Storage {
     } catch (e) {
       log("Error saving token");
     }
+  }
+
+  @override
+  Future<void> clearStorage() async {
+    await Future.wait([
+      Hive.deleteBoxFromDisk(securebox),
+      Hive.deleteBoxFromDisk(deviceBox),
+    ]);
+  }
+
+  @override
+  Future getData({required String key}) async {
+    final openBox = await Hive.openBox(deviceBox);
+    final value = await openBox.get(key);
+    await openBox.close();
+    return value;
+  }
+
+  @override
+  Future<void> storeData({required String key, value}) async {
+    final openBox = await Hive.openBox(deviceBox);
+    await openBox.put(key, value);
+    await openBox.close();
   }
 }

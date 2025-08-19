@@ -16,7 +16,7 @@ abstract class ApiRepo {
 
   Future<Either<Failure, void>> claimRewards({required int rewardID});
 
-  Future<Either<Failure, List<RewardModel>>> getRewards();
+  Future<Either<Failure, RewardResponseModel>> getRewards();
 }
 
 class ApiRepoImpl implements ApiRepo {
@@ -35,10 +35,10 @@ class ApiRepoImpl implements ApiRepo {
   }
 
   @override
-  Future<Either<Failure, List<RewardModel>>> getRewards() async {
+  Future<Either<Failure, RewardResponseModel>> getRewards() async {
     try {
       final res = await _apiDs.getRewards();
-      final val = res.map((data) => data.toRewardModel()).toList();
+      final val = res.toRewardResponseModel();
       return right(val);
     } catch (e) {
       return left(ErrorHandler.handle(e).failure);

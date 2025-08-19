@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ensake/utils/color.dart';
 import 'package:ensake/utils/mapper.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +65,12 @@ class EnsakeButton extends StatelessWidget {
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator.adaptive(
-                            backgroundColor: Colors.white,
+                            backgroundColor:
+                                Platform.isIOS
+                                    ? btnColor == null
+                                        ? Colors.white
+                                        : AppColors.primary
+                                    : Colors.white,
                           ),
                         )
                         : Text(

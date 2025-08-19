@@ -9,7 +9,7 @@ abstract class ApiDs {
     required String password,
     required String email,
   });
-  Future<List<Map<String, dynamic>>> getRewards();
+  Future<Map<String, dynamic>> getRewards();
   Future<void> claimReward({required int rewardID});
 }
 
@@ -38,11 +38,11 @@ class ApiDsImpl implements ApiDs {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getRewards() async {
+  Future<Map<String, dynamic>> getRewards() async {
     try {
       final res = await _api.dio.get(AppEndpoints.rewards);
       if (res.statusCode == 200 || res.statusCode == 201) {
-        return (res.data['rewards'] as List).cast<Map<String, dynamic>>();
+        return res.data;
       } else {
         throw Exception();
       }

@@ -1,5 +1,18 @@
 import 'package:equatable/equatable.dart';
 
+class RewardResponseModel extends Equatable {
+  final int customerPoints;
+  final List<RewardModel> rewards;
+
+  const RewardResponseModel({
+    required this.customerPoints,
+    required this.rewards,
+  });
+
+  @override
+  List<Object?> get props => [customerPoints, rewards];
+}
+
 class RewardModel extends Equatable {
   final int id;
   final int point;

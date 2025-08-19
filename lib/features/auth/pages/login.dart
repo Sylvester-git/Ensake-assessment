@@ -1,5 +1,8 @@
 import 'package:ensake/common/buttons.dart';
 import 'package:ensake/common/input_field.dart';
+import 'package:ensake/common/toast.dart';
+import 'package:ensake/features/auth/cubit/login/login_cubit.dart';
+import 'package:ensake/features/controller/api.dart';
 import 'package:ensake/features/home/pages/home.dart';
 import 'package:ensake/utils/assets.dart';
 import 'package:ensake/utils/color.dart';
@@ -7,15 +10,31 @@ import 'package:ensake/utils/mapper.dart';
 import 'package:ensake/utils/validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   static final routeName = "login-screen";
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +59,36 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            EnsakeButton(
-              title: "Log in",
-              onTap: () async {
-                context.go("/${HomePage.routeName}");
-                // if (_formKey.currentState!.validate()) {}
+            BlocConsumer<LoginCubit, LoginState>(
+              listener: (context, loginstate) {
+                if (loginstate is LoggedIn) {
+                  TopSnackbar.success(
+                    ctx: context,
+                    message: "Login successful",
+                  );
+                  context.go("/${HomePage.routeName}");
+                }
+                if (loginstate is ErrorLoggingIn) {
+                  TopSnackbar.error(
+                    ctx: context,
+                    message: loginstate.errormessage,
+                  );
+                }
+              },
+              builder: (context, loginstate) {
+                return EnsakeButton(
+                  title: "Log in",
+                  loading: loginstate is LoggingIn,
+                  onTap: () async {
+                    if (_formKey.currentState!.validate()) {
+                      ApiController.login(
+                        context: context,
+                        email: _emailController.value.text,
+                        password: _passwordController.value.text,
+                      );
+                    }
+                  },
+                );
               },
             ),
             Text.rich(
@@ -98,6 +142,7 @@ class LoginPage extends StatelessWidget {
                   compulsoryField: true,
                   hintText: "hello@ensake.com",
                   svg: SvgAssets.email,
+                  controller: _emailController,
                   onChanged: (p0) {},
                   validator: Validators.validateEmail,
                 ),
@@ -105,11 +150,12 @@ class LoginPage extends StatelessWidget {
                 EnsakeInputField(
                   title: "Password",
                   compulsoryField: true,
+                  controller: _passwordController,
                   hintText: "• • • • • • • • • • ",
                   passwordField: true,
                   svg: SvgAssets.lock,
                   onChanged: (p0) {},
-                  validator: Validators.validatePassword,
+                  validator: Validators.validateField,
                 ),
                 10.height,
                 Text.rich(

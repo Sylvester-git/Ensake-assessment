@@ -33,6 +33,19 @@ extension ConvertloginresponseToCustomer on Map<String, dynamic> {
   }
 }
 
+extension ConvertToRewardResponseModel on Map<String, dynamic> {
+  RewardResponseModel toRewardResponseModel() {
+    return RewardResponseModel(
+      customerPoints: this['customer_points'],
+      rewards:
+          ((this['rewards'] as List)
+              .cast<Map<String, dynamic>>()
+              .map((data) => data.toRewardModel())
+              .toList()),
+    );
+  }
+}
+
 extension ConvertToRewardModel on Map<String, dynamic> {
   RewardModel toRewardModel() {
     return RewardModel(

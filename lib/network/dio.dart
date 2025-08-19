@@ -20,7 +20,7 @@ class Api {
         },
       ),
     );
-    dio.interceptors.add(PrettyDioLogger(request: true, requestBody: true));
+    dio.interceptors.add(PrettyDioLogger(request: true, requestBody: false));
     dio.interceptors.addAll({AppInterceptors(dio: dio)});
   }
 }

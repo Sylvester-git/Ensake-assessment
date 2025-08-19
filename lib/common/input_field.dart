@@ -17,6 +17,7 @@ class EnsakeInputField extends StatefulWidget {
     this.validator,
     this.hintText = "",
     this.svg,
+    this.controller,
   });
   final String title;
 
@@ -35,6 +36,8 @@ class EnsakeInputField extends StatefulWidget {
   final String hintText;
 
   final String? svg;
+
+  final TextEditingController? controller;
 
   @override
   State<EnsakeInputField> createState() => _EnsakeInputFieldState();
@@ -68,7 +71,7 @@ class _EnsakeInputFieldState extends State<EnsakeInputField> {
           onTapOutside: (event) {
             FocusManager.instance.primaryFocus!.unfocus();
           },
-
+          controller: widget.controller,
           obscureText: widget.passwordField ? isHidden : false,
           validator: widget.validator,
           decoration: InputDecoration(

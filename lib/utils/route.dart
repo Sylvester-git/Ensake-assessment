@@ -1,6 +1,7 @@
 import 'package:ensake/features/home/pages/home.dart';
 import 'package:ensake/features/profile/pages/profile.dart';
 import 'package:ensake/features/qrcode/pages/qrcode.dart';
+import 'package:ensake/features/re_route_page.dart';
 import 'package:ensake/features/rewards/pages/rewards.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,12 @@ final _shellProfileNavigationKey = GlobalKey<NavigatorState>(
 final route = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/', builder: (context, state) => LoginPage()),
+    GoRoute(path: '/', builder: (context, state) => ReRoutePage()),
+    GoRoute(
+      path: '/${LoginPage.routeName}',
+      name: LoginPage.routeName,
+      builder: (context, state) => LoginPage(),
+    ),
     StatefulShellRoute.indexedStack(
       branches: [
         // Home
