@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:ensake/features/auth/model/customer.dart';
 import 'package:ensake/network/api_repo.dart';
@@ -23,14 +25,17 @@ class LoginCubit extends Cubit<LoginState> {
       final res = await _apiRepo.login(email: email, password: password);
       res.fold(
         (l) {
+          log("Error in cubit");
           emit(ErrorLoggingIn(errormessage: l.message));
         },
         (r) {
+          log("Success");
           emit(LoggedIn(customer: r));
           _currentUserCubit.getCurrentUser();
         },
       );
-    } catch (e) {
+    } catch (e, s) {
+      log(s.toString(), name: "Login stacktrace");
       emit(ErrorLoggingIn(errormessage: e.toString()));
     }
   }

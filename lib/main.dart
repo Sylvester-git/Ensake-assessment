@@ -9,7 +9,7 @@ import 'app/bloc_observer.dart';
 import 'services/config_services.dart';
 
 void main() async {
-  AppInit.preRun();
+  await AppInit.preRun();
   await ConfigServices.loadConfig();
   log(ConfigServices.isLoaded.toString());
   Bloc.observer = MyBlocObserver();

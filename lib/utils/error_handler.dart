@@ -26,15 +26,39 @@ class ResponseMessage {
   static const String emailinuse = EMAILALREADYEXISTRESPONSE;
 }
 
-class ErrorHandler {
-  static Failure handle(dynamic error) {
+class ErrorHandler implements Exception {
+  late Failure failure;
+
+  ErrorHandler.handle(dynamic error) {
     if (error is DioException) {
-      return _handleDioError(error);
-    } else {
-      return Failure(message: "Unexpected error occured");
+      failure = _handleDioError(error);
     }
+    // if (error is FirebaseAuthException) {
+    //   failure = _handleError(error);
+    // }
   }
 }
+
+// Failure _handleError(FirebaseAuthException error) {
+//   switch (error.code) {
+//     case INVALIDEMAIL:
+//       return Failure(message: ResponseMessage.invalidemail);
+//     case USERDISABLED:
+//       return Failure(message: ResponseMessage.userdisabled);
+//     case USERNOTFOUND:
+//       return Failure(message: ResponseMessage.usernotfound);
+//     case WRONGPASSWORD:
+//       return Failure(message: ResponseMessage.wrongpassword);
+//     case NETWORKREQUESTFAILED:
+//       return Failure(message: ResponseMessage.networkfailed);
+//     case CHANNELERROR:
+//       return Failure(message: ResponseMessage.channelerror);
+//     case EMAILALREADYEXIST:
+//       return Failure(message: ResponseMessage.emailinuse);
+//     default:
+//       return Failure(message: ResponseMessage.unknown);
+//   }
+// }
 
 Failure _handleDioError(DioException error) {
   switch (error.type) {

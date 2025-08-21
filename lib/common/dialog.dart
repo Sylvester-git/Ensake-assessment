@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../app/dependency_inj.dart';
-import '../features/auth/pages/login.dart';
 import '../features/controller/api.dart';
-import '../utils/storage.dart';
 
 class ShowDialog {
   static void showCustomCalimDialog({
@@ -87,22 +84,12 @@ class ShowDialog {
                     children: [
                       Expanded(
                         child: EnsakeButton(
-                          title:
-                              iserror
-                                  ? message.toLowerCase().contains("logged")
-                                      ? "Logout"
-                                      : "Try Again"
-                                  : "Cancel",
+                          title: iserror ? "Try Again" : "Cancel",
                           borderColor: AppColors.stroke,
                           onTap:
                               iserror
                                   ? () async {
-                                    if (message.toLowerCase().contains(
-                                      "logged",
-                                    )) {
-                                      instance<Storage>().clearStorage();
-                                      context.go("/${LoginPage.routeName}");
-                                    } else {
+                                    {
                                       context.pop();
                                     }
                                   }
