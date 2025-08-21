@@ -15,6 +15,7 @@ dependencies:
   dio:
   skeletonizer: 
   top_snackbar_flutter: 
+  fluttertoast: 
   device_info_plus: 
   equatable:
   flutter:

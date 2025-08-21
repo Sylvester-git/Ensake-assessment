@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/dialog.dart';
+import '../../auth/cubit/current_user/get_current_user_cubit.dart';
 import '../cubit/claim_reward/claim_reward_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentCustomer = context.watch<GetCurrentUserCubit>();
     final claimRewardCubit = context.watch<ClaimRewardCubit>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -57,7 +59,9 @@ class _HomePageState extends State<HomePage> {
                 backgroundImage: AssetImage(ImageAssets.avatar),
               ),
               Text(
-                "Welcome Moyo",
+                currentCustomer.state.customer == null
+                    ? "Welcome"
+                    : "Welcome ${currentCustomer.state.customer?.firstName}",
                 style: context.textTheme.bodyLarge!.copyWith(),
               ),
             ],
@@ -101,13 +105,14 @@ class _HomePageState extends State<HomePage> {
                                 getrewardstate
                                     .rewardResponseModel
                                     .customerPoints,
-                            rewards:
-                                getAvailableRewards(
-                                  reviewmodel:
-                                      getrewardstate
-                                          .rewardResponseModel
-                                          .rewards,
-                                ).length,
+                            rewards: getAvailableRewardCount(
+                              reviewmodel:
+                                  getrewardstate.rewardResponseModel.rewards,
+                              points:
+                                  getrewardstate
+                                      .rewardResponseModel
+                                      .customerPoints,
+                            ),
                           );
                         }
                         return 0.height;
@@ -133,7 +138,10 @@ class _HomePageState extends State<HomePage> {
                             ),
 
                             ...List.generate(2, (index) {
-                              return AvailableRewardCard(skelentinized: true);
+                              return AvailableRewardCard(
+                                skelentinized: true,
+                                customerpoints: 0,
+                              );
                             }),
                           ]),
                         );
@@ -189,6 +197,10 @@ class _HomePageState extends State<HomePage> {
                                 ).length,
                                 (index) {
                                   return AvailableRewardCard(
+                                    customerpoints:
+                                        getRewardstate
+                                            .rewardResponseModel
+                                            .customerPoints,
                                     rewardModel:
                                         getAvailableRewards(
                                           reviewmodel:

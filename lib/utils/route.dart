@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/pages/login.dart';
 import '../features/page_with_navbar.dart';
 
-final rootNavigation = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellHomeNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _shellQrcodeNavigationKey = GlobalKey<NavigatorState>(
   debugLabel: 'qrcode',
@@ -22,6 +22,7 @@ final _shellProfileNavigationKey = GlobalKey<NavigatorState>(
 );
 
 final route = GoRouter(
+  navigatorKey: rootNavigatorKey,
   initialLocation: '/',
   routes: [
     GoRoute(path: '/', builder: (context, state) => ReRoutePage()),

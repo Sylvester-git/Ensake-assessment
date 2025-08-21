@@ -24,7 +24,7 @@ Future<void> initDependencyInj() async {
   );
   //Cubit
   instance.registerLazySingleton<GetCurrentUserCubit>(
-    () => GetCurrentUserCubit(),
+    () => GetCurrentUserCubit(storage: instance()),
   );
   instance.registerLazySingleton<GetRewardsCubit>(
     () => GetRewardsCubit(apiRepo: instance()),

@@ -5,6 +5,7 @@ import 'package:ensake/utils/mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../common/dialog.dart';
 import '../../../utils/assets.dart';
 
 class AvailableRewardCard extends StatelessWidget {
@@ -14,10 +15,12 @@ class AvailableRewardCard extends StatelessWidget {
     this.isloading = false,
     this.skelentinized = false,
     this.onTap,
+    required this.customerpoints,
   });
 
   final RewardModel? rewardModel;
   final bool skelentinized;
+  final int customerpoints;
   final bool isloading;
   final void Function()? onTap;
 
@@ -79,7 +82,17 @@ class AvailableRewardCard extends StatelessWidget {
                               hpadding: 5,
                               vpadding: 5,
                               loading: isloading,
-                              onTap: onTap,
+                              onTap:
+                                  customerpoints < (rewardModel?.point ?? 0)
+                                      ? () {
+                                        ShowDialog.showCustomCalimDialog(
+                                          context: context,
+                                          title: "Failed",
+                                          message: "Insufficient points",
+                                          iserror: true,
+                                        );
+                                      }
+                                      : onTap,
                               borderColor: AppColors.primary,
                               btnColor: Colors.white,
                               titleColor: AppColors.primary,

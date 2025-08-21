@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:ensake/features/auth/pages/login.dart';
 import 'package:ensake/utils/color.dart';
-import 'package:ensake/utils/mapper.dart';
 import 'package:ensake/utils/storage.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import '../utils/global.dart';
 import '../utils/route.dart';
 import '../utils/theme.dart';
 import 'provider.dart';
@@ -63,13 +62,13 @@ class _RootAppState extends State<RootApp> with WidgetsBindingObserver {
     Storage storage = StorageImpl();
     final token = await storage.getToken();
     if (token != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           backgroundColor: AppColors.primary,
           content: Center(
             child: Text(
               "Session expired, login to continue",
-              style: context.textTheme.bodyMedium?.copyWith(
+              style: getLightTheme().textTheme.bodyMedium?.copyWith(
                 fontSize: 13,
                 color: Colors.white,
               ),
@@ -78,7 +77,7 @@ class _RootAppState extends State<RootApp> with WidgetsBindingObserver {
         ),
       );
       storage.clearStorage();
-      context.go("/${LoginPage.routeName}");
+      route.go("/${LoginPage.routeName}");
     }
   }
 
@@ -106,6 +105,7 @@ class _RootAppState extends State<RootApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return getProvider(
       child: MaterialApp.router(
+        scaffoldMessengerKey: scaffoldMessengerKey,
         theme: getLightTheme(),
         debugShowCheckedModeBanner: false,
         routeInformationParser: route.routeInformationParser,

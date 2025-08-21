@@ -1,13 +1,22 @@
 import 'package:bloc/bloc.dart';
-import 'package:ensake/features/auth/model/customer.dart';
+import 'package:ensake/utils/mapper.dart';
+import 'package:ensake/utils/storage.dart';
 import 'get_current_user_state.dart';
 
 class GetCurrentUserCubit extends Cubit<GetCurrentUserState> {
-  GetCurrentUserCubit() : super(GetCurrentUserState.initial());
+  final Storage _storage;
+  GetCurrentUserCubit({required Storage storage})
+    : _storage = storage,
+      super(GetCurrentUserState.initial());
 
-  void getCurrentUser({required CustomerModel customer}) {
-    emit(state.copyWith(
-      customer: customer,
-    ));
+  Future<void> getCurrentUser() async {
+    final currentuserAsMap = await _storage.getData(key: "customer");
+    if (currentuserAsMap != null) {
+      final customer =
+          (currentuserAsMap as Map<dynamic, dynamic>)
+              .cast<String, dynamic>()
+              .toCustomerModel();
+      emit(state.copyWith(customer: customer));
+    }
   }
 }

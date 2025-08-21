@@ -1,6 +1,5 @@
 import 'package:ensake/common/buttons.dart';
 import 'package:ensake/common/input_field.dart';
-import 'package:ensake/common/toast.dart';
 import 'package:ensake/features/auth/cubit/login/login_cubit.dart';
 import 'package:ensake/features/controller/api.dart';
 import 'package:ensake/features/home/pages/home.dart';
@@ -12,6 +11,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,7 +26,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -40,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -64,16 +62,18 @@ class _LoginPageState extends State<LoginPage> {
             BlocConsumer<LoginCubit, LoginState>(
               listener: (context, loginstate) {
                 if (loginstate is LoggedIn) {
-                  TopSnackbar.success(
-                    ctx: context,
-                    message: "Login successful",
+                  Fluttertoast.showToast(
+                    msg: "Session expired. Please log in again.",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
                   );
                   context.go("/${HomePage.routeName}");
                 }
                 if (loginstate is ErrorLoggingIn) {
-                  TopSnackbar.error(
-                    ctx: context,
-                    message: loginstate.errormessage,
+                  Fluttertoast.showToast(
+                    msg: loginstate.errormessage,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
                   );
                 }
               },

@@ -11,7 +11,9 @@ MultiBlocProvider getProvider({required Widget child}) {
   return MultiBlocProvider(
     providers: [
       BlocProvider(create: (context) => instance<LoginCubit>()),
-      BlocProvider(create: (context) => instance<GetCurrentUserCubit>()),
+      BlocProvider(
+        create: (context) => instance<GetCurrentUserCubit>()..getCurrentUser(),
+      ),
       BlocProvider(create: (context) => instance<GetRewardsCubit>()),
       BlocProvider(create: (context) => instance<ClaimRewardCubit>()),
     ],

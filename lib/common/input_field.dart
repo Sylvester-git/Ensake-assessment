@@ -44,9 +44,9 @@ class EnsakeInputField extends StatefulWidget {
 }
 
 class _EnsakeInputFieldState extends State<EnsakeInputField> {
+  bool isHidden = true;
   @override
   Widget build(BuildContext context) {
-    bool isHidden = true;
     return Column(
       spacing: 5,
       crossAxisAlignment: CrossAxisAlignment.start,

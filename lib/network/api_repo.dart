@@ -30,7 +30,7 @@ class ApiRepoImpl implements ApiRepo {
       final res = await _apiDs.claimReward(rewardID: rewardID);
       return right(res);
     } catch (e) {
-      return left(ErrorHandler.handle(e).failure);
+      return left(ErrorHandler.handle(e));
     }
   }
 
@@ -41,7 +41,7 @@ class ApiRepoImpl implements ApiRepo {
       final val = res.toRewardResponseModel();
       return right(val);
     } catch (e) {
-      return left(ErrorHandler.handle(e).failure);
+      return left(ErrorHandler.handle(e));
     }
   }
 
@@ -52,11 +52,12 @@ class ApiRepoImpl implements ApiRepo {
   }) async {
     try {
       final res = await _apiDs.login(password: password, email: email);
-      await _storage.saveToken(token: res['token']);
+      await _storage.saveToken(token: res['customer']['token']);
+      await _storage.storeData(key: "customer", value: res['customer']);
       final val = res.toCustomerModel();
       return right(val);
     } catch (e) {
-      return left(ErrorHandler.handle(e).failure);
+      return left(ErrorHandler.handle(e));
     }
   }
 }

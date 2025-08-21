@@ -25,6 +25,7 @@ class StorageImpl implements Storage {
   final String deviceBox = "deviceBox";
 
   final String tokenKey = "tokenKey";
+
   final String secureStoragekey = "secureStoragekey";
 
   Future<void> _ensureEncryptionKeyLoaded() async {
@@ -54,21 +55,27 @@ class StorageImpl implements Storage {
   @override
   Future<void> initStorage() async {
     if (kIsWeb) return;
-    final appdir = await getApplicationDocumentsDirectory();
-    Hive.init(appdir.path);
+    try {
+      final appdir = await getApplicationDocumentsDirectory();
+      Hive.init(appdir.path);
 
-    var containsEncryptionKey = await secureStorage.containsKey(key: tokenKey);
-    if (!containsEncryptionKey) {
-      securedKey = Hive.generateSecureKey();
-      await secureStorage.write(
+      var containsEncryptionKey = await secureStorage.containsKey(
         key: tokenKey,
-        value: base64UrlEncode(securedKey),
       );
-    }
-    final String? getSecuredKey = await secureStorage.read(key: tokenKey);
+      if (!containsEncryptionKey) {
+        securedKey = Hive.generateSecureKey();
+        await secureStorage.write(
+          key: tokenKey,
+          value: base64UrlEncode(securedKey),
+        );
+      }
+      final String? getSecuredKey = await secureStorage.read(key: tokenKey);
 
-    encryptionKey = base64Url.decode(getSecuredKey!);
-    log("HIVE INIT");
+      encryptionKey = base64Url.decode(getSecuredKey!);
+      log("HIVE INIT");
+    } catch (e, s) {
+      log("Hive init err $s", name: "hive err");
+    }
   }
 
   @override

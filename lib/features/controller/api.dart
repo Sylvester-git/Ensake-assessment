@@ -19,4 +19,5 @@ class ApiController {
     required BuildContext context,
     required int rewardID,
   }) => context.read<ClaimRewardCubit>().claimReward(rewardID: rewardID);
+
 }

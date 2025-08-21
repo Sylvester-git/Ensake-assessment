@@ -49,7 +49,7 @@ class ApiDsImpl implements ApiDs {
     } on DioException {
       rethrow;
     } catch (e) {
-      log(e.toString(), name: "claim reward err");
+      log(e.toString(), name: "get reward err");
       rethrow;
     }
   }
@@ -64,15 +64,15 @@ class ApiDsImpl implements ApiDs {
         AppEndpoints.login,
         data: {"email": email, "password": password},
       );
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        return res.data['customer'];
+      if (res.statusCode == 200) {
+        return res.data;
       } else {
         throw Exception();
       }
     } on DioException {
       rethrow;
     } catch (e) {
-      log(e.toString(), name: "claim reward err");
+      log(e.toString(), name: "login reward err");
       rethrow;
     }
   }

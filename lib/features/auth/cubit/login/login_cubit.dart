@@ -26,8 +26,8 @@ class LoginCubit extends Cubit<LoginState> {
           emit(ErrorLoggingIn(errormessage: l.message));
         },
         (r) {
-          _currentUserCubit.getCurrentUser(customer: r);
           emit(LoggedIn(customer: r));
+          _currentUserCubit.getCurrentUser();
         },
       );
     } catch (e) {
